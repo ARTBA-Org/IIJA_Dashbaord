@@ -9,20 +9,233 @@
     />
 
     <style>
+      .chartTitle {
+        background-color: darkblue;
+        /* Dark blue background */
+        color: white;
+        /* White text */
+        padding: 10px;
+        /* Padding around text */
+      }
+
+      #main {
+        padding: 0;
+      }
+
+      .nonhundred-percent-fullwidth {
+        padding: 0 0 0 25px !important;
+      }
+
+      .nopadding {
+        padding: 0 !important;
+      }
+
+      .fusion-layout-column {
+      }
+
+      .fusion-imageframe {
+        display: inherit !important;
+      }
+
+      .fusion-imageframe img {
+        width: 100%;
+      }
+
+      body,
+      html {
+        height: inherit !important;
+      }
+
+      .postbody .fusion_builder_column_5_6 {
+        background-color: white;
+        padding-left: 20px;
+        width: 84% !important;
+      }
+
+      .fusion_builder_column_1_6 {
+        margin-right: 0 !important;
+      }
+
+      .fusion-widget-area .widget_nav_menu li {
+        border-bottom: 0 !important;
+      }
+
+      #breadcrumbs a {
+        color: #2e81ab !important;
+      }
+
+      .card-title {
+        font-size: 4vw !important;
+        padding-top: 10px !important;
+        line-height: 0.3 !important;
+      }
+
+      .card {
+        background: whitesmoke !important;
+        padding: 10px;
+        border-radius: 4px;
+        box-shadow: none !important;
+        margin: 10px 0;
+      }
+
+      .toggle {
+        cursor: pointer;
+        display: inline-block;
+      }
+
+      .toggle-switch {
+        display: inline-block;
+        background: #ccc;
+        border-radius: 16px;
+        width: 58px;
+        height: 32px;
+        position: relative;
+        vertical-align: middle;
+        transition: background 0.25s;
+
+        &:before,
+        &:after {
+          content: "";
+        }
+
+        &:before {
+          display: block;
+          background: linear-gradient(to bottom, #fff 0%, #eee 100%);
+          border-radius: 50%;
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.25);
+          width: 24px;
+          height: 24px;
+          position: absolute;
+          top: 4px;
+          left: 4px;
+          transition: left 0.25s;
+        }
+
+        .toggle:hover &:before {
+          background: linear-gradient(to bottom, #fff 0%, #fff 100%);
+          box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.5);
+        }
+
+        .toggle-checkbox:checked + & {
+          background: #005880;
+
+          &:before {
+            left: 30px;
+          }
+        }
+      }
+
+      .toggle-checkbox {
+        position: absolute;
+        visibility: hidden;
+      }
+
+      .toggle-label {
+        margin-left: 5px;
+        position: relative;
+        top: 2px;
+      }
+
+      .chartTitle {
+        color: white;
+        width: 100%;
+        text-align: center;
+        font-size: 0.75em;
+        font-weight: bold;
+        background-color: #005880;
+        padding: 5px 0;
+      }
+
+      #grid_wrapper li {
+        font-weight: 500;
+        font-size: 18px;
+        text-align: left !important;
+      }
+
+      .tw-table-container {
+        width: 100% !important;
+      }
+
+      .col-md-12 .tab-link {
+        font-weight: bold;
+        margin: 20px 0;
+        min-width: 200px;
+        text-align: center;
+        border-radius: 10px;
+        padding: 10px 20px;
+        color: #b3121a !important;
+        border: 2px solid #b3121a !important;
+      }
+
+      .col-md-12 .tab-link.active {
+        background: #b3121a !important;
+        color: white !important;
+      }
+
+      tablewidget {
+        display: none;
+      }
+
+      .dataTables_scroll {
+        padding-bottom: 30px;
+      }
+
+      .dataTable > * {
+        text-align: left;
+      }
+
+      #text-to-change h2 {
+        margin-bottom: 30px !important;
+      }
+
+      .post-content p {
+        font-size: 16px;
+      }
+
+      .wrap ul,
+      .wrap ul li {
+        font-size: 16px;
+        line-height: 0.8;
+        margin-top: 20px;
+        margin-left: 20px;
+      }
+
+      .c116,
+      .c111 h1,
+      .c112 .spacing-medium {
+        padding-top: 0;
+        margin-top: 0;
+      }
+
+      .sis-scope,
+      .sis-scope .widget-body {
+        background: transparent !important;
+      }
+
+      .sisense-css-module.sisense-widget-wrapper:not(#Graph1):not(#Graph2):not(#Graph3) {
+    position: relative;
+    height: auto !important;
+}
 
 
+      .filter-widget-wrapper {
+        width: 230px !important;
+      }
 
+  
     </style>
   </head>
+
   <body>
     <div id="sisenseApp">
-      <div class="row align-items-center">
+      <div id="toptitle"class="row align-items-center mb-5">
         <div class="col-md-12 d-flex align-items-center justify-content-start">
           <a
             class="tab-link active"
             href="/economics/highway-dashboard-iija/"
             style="margin-left: 35%"
-            >< BACK TO MAP</a
+          >
+            < BACK TO MAP</a
           >
           <div id="district" class="btn"></div>
         </div>
@@ -47,18 +260,9 @@
           are included in this list.
         </p>
 
-        <div
-          id="Table1"
-          style="
-            height: 100%;
-            width: 100%;
-            text-align: center;
-            float: left;
-            display: inline;
-            left: 0;
-          "
-        ></div>
+        <div id="Table1"></div>
       </div>
+
       <div class="col-md-12">
         <p class="chartTitle">
           U.S. Department of Transportation Discretionary Grant Awards
@@ -77,25 +281,19 @@
       <div class="col-md-4">
         <p class="chartTitle">All State Federal-Aid Formula Funds Available</p>
 
-        <div
-          id="Graph1"
-          style="height: 400px; width: 400px; margin: 0 auto"
-        ></div>`
+        <div id="Graph1" style="height: 400px; width: 400px; margin: 0 auto"
+        ></div>
       </div>
       <div class="col-md-4">
         <p class="chartTitle">Federal-Aid Funds Committed Year to Date</p>
 
-        <div
-          id="Graph2"
-          style="height: 400px; width: 400px; margin: 0 auto"
+        <div id="Graph2" style="height: 400px; width: 400px; margin: 0 auto"
         ></div>
       </div>
       <div class="col-md-4">
         <p class="chartTitle">New Federal-Aid Projects</p>
 
-        <div
-          id="Graph3"
-          style="height: 400px; width: 400px; margin: 0 auto"
+        <div id="Graph3" style="height: 400px; width: 400px; margin: 0 auto"
         ></div>
       </div>
     </div>
@@ -255,8 +453,8 @@
 
               /*
 
-                        dash.widgets.get("6329f94504d783003816fb5f").container =
-                            document.getElementById("widget2"); //replace with one of your widgets' id.
+                      dash.widgets.get("6329f94504d783003816fb5f").container =
+                          document.getElementById("widget2"); //replace with one of your widgets' id.
 */
 
               dash.renderFilters(document.getElementById("filters"));
