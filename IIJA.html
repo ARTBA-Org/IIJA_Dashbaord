@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your Project</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+    />
+
+    <style>
+
+
+
+    </style>
+  </head>
+  <body>
+    <div id="sisenseApp">
+      <div class="row align-items-center">
+        <div class="col-md-12 d-flex align-items-center justify-content-start">
+          <a
+            class="tab-link active"
+            href="/economics/highway-dashboard-iija/"
+            style="margin-left: 35%"
+            >< BACK TO MAP</a
+          >
+          <div id="district" class="btn"></div>
+        </div>
+      </div>
+    </div>
+    <h1 id="title"></h1>
+    <div id="text" style="height: 100%; width: 100%"></div>
+    <div class="row">
+      <div class="col-md-12">
+        <p class="chartTitle">
+          FY 2022 & 2023 New Project Commitments in the State
+        </p>
+        <p
+          class="text-left"
+          style="padding: 1em; font-size: 16px; color: #3a4356"
+        >
+          The following are the largest federal aid highway and bridge projects
+          that moved forward in FY 2022 and year to date in FY 2023 using IIJA
+          and other federal formula funds. In addition to these projects, states
+          obligated funds towards eligible projects already underway and for
+          projects approved with advanced construction funding, neither of which
+          are included in this list.
+        </p>
+
+        <div
+          id="Table1"
+          style="
+            height: 100%;
+            width: 100%;
+            text-align: center;
+            float: left;
+            display: inline;
+            left: 0;
+          "
+        ></div>
+      </div>
+      <div class="col-md-12">
+        <p class="chartTitle">
+          U.S. Department of Transportation Discretionary Grant Awards
+        </p>
+        <p
+          class="text-left"
+          style="padding: 1em; font-size: 16px; color: #3a4356"
+        >
+          Discretionary grant awards listed are IIJA-funded highway and bridge
+          projects.  The funds have been awarded, but states may or may not have
+          obligated them to-date.
+        </p>
+
+        <div id="Table2" style="height: 100%; width: 100%"></div>
+      </div>
+      <div class="col-md-4">
+        <p class="chartTitle">All State Federal-Aid Formula Funds Available</p>
+
+        <div
+          id="Graph1"
+          style="height: 400px; width: 400px; margin: 0 auto"
+        ></div>`
+      </div>
+      <div class="col-md-4">
+        <p class="chartTitle">Federal-Aid Funds Committed Year to Date</p>
+
+        <div
+          id="Graph2"
+          style="height: 400px; width: 400px; margin: 0 auto"
+        ></div>
+      </div>
+      <div class="col-md-4">
+        <p class="chartTitle">New Federal-Aid Projects</p>
+
+        <div
+          id="Graph3"
+          style="height: 400px; width: 400px; margin: 0 auto"
+        ></div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <p class="chartTitle">
+          Value of Federal-Aid Highway Projects by Type of Spending, FY 2022
+        </p>
+        <p
+          class="text-left"
+          style="padding: 1em; font-size: 16px; color: #3a4356"
+        >
+          FHWA provides project type information on a retroactive, annual
+          basis. 
+        </p>
+
+        <div id="Pie1" style="height: 500px; margin: 0 auto"></div>
+      </div>
+      <div class="col-md-6">
+        <p class="chartTitle">
+          FY 2022 & 2023 IIJA Obligations, by Source of Funds
+        </p>
+        <p
+          class="text-left"
+          style="padding: 1em; font-size: 16px; color: #3a4356"
+        >
+          The breakdown of other formula funds and discretionary grant awards
+          that have been obligated can be seen by clicking “Other.”
+        </p>
+
+        <div
+          id="Pie2"
+          style="height: 500px; width: 600px; margin: 0 auto"
+        ></div>
+      </div>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
+      integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-u1OknCvxWvY5kfmNBILK2hRnQC3Pr17a+RTT6rIHI7NnikvbZlHgTPOOmMi466C8"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      type="text/javascript"
+      src="https://artba.sisense.com/js/sisense.js?wat=true"
+    ></script>
+    <!-- replace with your Sisense server address -->
+    <script>
+      const params = new Proxy(new URLSearchParams(window.location.search), {
+        get: (searchParams, prop) => searchParams.get(prop),
+      });
+      // Get the value of "some_key" in eg "https://example.com/?state=Florida
+      let value = params.state; // "some_value"
+      if (value == null) {
+        if (alert("Please select a state") == null) {
+          // if the user clicks ok
+          window.location.href =
+            "https://www.artba.org/economics/highway-dashboard-iija/";
+        }
+      }
+      jQuery(document).ready(function ($) {
+        $(document).on("mousemove", function (e) {
+          var screenWidth = $(document).width();
+          var screenHeight = $(document).height();
+          console.log(e.pageY);
+          if (e.pageY > 1500) {
+            $("#sisense-overlay-manager").css("marginTop", 200);
+          } else {
+            $("#sisense-overlay-manager").css("marginTop", -50);
+          }
+
+          if (screenWidth > 2400) {
+            $('.tipper-host[data-ng-show="active"]').css({
+              left: e.pageX - screenWidth * 0.9,
+            });
+            $("#sisense-overlay-manager").css("top", e.pageY * 2);
+          }
+
+          if (screenHeight < 1500) {
+            $("#sisense-overlay-manager").css("top", e.pageY);
+
+            $('.tipper-host[data-ng-show="active"]').css({
+              left: e.pageX,
+              marginTop: e.pageY * 2,
+            });
+          }
+        });
+
+        $(".tab-link.tab").attr(
+          "href",
+          $(".tab-link.tab").attr("href") + value
+        );
+      });
+      console.log(value);
+      //get check box value
+
+      //                 if(checkBox.checked == true){
+      //     alert("Checked");
+      // }
+      // else{
+      //     alert("Unchecked");
+      // }
+
+      const wat =
+        "eyJ0eXAiOiJKV1QiLCJhbGciOiJSU0EtT0FFUC0yNTYiLCJ6aXAiOiJERUYiLCJlbmMiOiJBMTI4R0NNIiwia2lkIjoiNjMyOGRjZjYwNGQ3ODMwMDM4MTZmYTM0In0.Qln8IVgSzk1-ch4pTYLTJCBGZAV8b2WEY4z7MppVhyAIrSOqzMdivc5cCOUsLLukws2Ba2gg0XlaouFvAlnD7rbWSc7B-EYA6pvPE4VL1zlzqSIPaCHIbO3kPIXwMhOjtP7_w0OAWDl2h-fgA6_Ud5GAclSEfVnl3FMtvuQgQAOufKYtrn134U2e-4PYZiYApsH4twSGIPxdiJbLfFzjZvk1ImSo8y967zJOhOCEABnKNPqoQbU06E7QpxUtNBqEMB9v9Vwu7y-viLnNv8RiSAqlOvs_83VjJ4Xb3E138_tbSJoVEDoeBt4xErZIECWKlET45RezW3WNBYAiJnYXwQ.XY_uSxToocu8av-R.uLeWNgpMobc42fSvxoHdRwZ3pf0a47IAG9qXJoI9l8YQ4IoRut5zUBV0w2w-dxPRihUY67WeQ36bbFgjh3ObOUhUixTq0iRo_-_bu-WMMg4v4zlw0N87ZUut8VPctClYi_9jYnJVKbfcBDHYAeAf07AZ8A3Tch4dnpjQMlB8Q4ojtpTsFwhnEHirWVEiFFsqRSlpYoU-cCwGcUhJMqSy8iqsHLBTCyvTRke-5vwT1EUSw9zTPp11cj9E2-I.wTpZzcYoyi_LXqXbpPO8TQ";
+
+      var currentUrl = window.location.href;
+      const url = currentUrl.replace(
+        "federal-highway-program-impact-iija",
+        "federal-highway-program-impact-iija-district"
+      ); //
+      console.log(url);
+      Sisense.connect("https://artba.sisense.com/", false, wat)
+        .then((app) => {
+          app.dashboards
+            .load("61b1002725769833c00285bf") //replace with your dashboard id
+            .then((dash) => {
+              dash.widgets.get("6340459404d7830038174326").container =
+                document.getElementById("text");
+
+              dash.widgets.get("61b10b1825769833c0028602").container =
+                document.getElementById("sname");
+
+              dash.widgets.get("6335ad3904d783003817285a").container =
+                document.getElementById("district");
+
+              dash.widgets.get("61b10b3425769833c0028606").container =
+                document.getElementById("funds");
+
+              dash.widgets.get("61b1002725769833c00285c9").container =
+                document.getElementById("Graph1");
+
+              dash.widgets.get("6329f94504d783003816fb5f").container =
+                document.getElementById("Graph2");
+
+              dash.widgets.get("6329c7c104d783003816fa8c").container =
+                document.getElementById("Graph3");
+
+              dash.widgets.get("6335dabd04d7830038172a3c").container =
+                document.getElementById("Table1");
+
+              dash.widgets.get("6329fe2004d783003816fb91").container =
+                document.getElementById("Table2");
+
+              dash.widgets.get("61b1002725769833c00285c5").container =
+                document.getElementById("Pie1");
+
+              dash.widgets.get("6335dbe404d7830038172a45").container =
+                document.getElementById("Pie2");
+
+              // Congressional
+
+              /*
+
+                        dash.widgets.get("6329f94504d783003816fb5f").container =
+                            document.getElementById("widget2"); //replace with one of your widgets' id.
+*/
+
+              dash.renderFilters(document.getElementById("filters"));
+
+              value && applyFilter("[state_dim.State]", [value], dash);
+
+              var ft = dash.widgets.get("6335ad3904d783003817285a").$$model;
+              setTimeout(() => {
+                console.log(ft);
+                ft.on("buildquery", function () {
+                  var filterVar = $("#district")
+                    .find(".filter-widget-wrapper")
+                    .find("span")
+                    .text();
+                  if (filterVar !== "Congressional District") {
+                    console.log(filterVar);
+                    window.open(url + "&dist=" + filterVar, "_blank");
+                  } else {
+                    console.log("no filter");
+                  }
+                });
+              }, 2000);
+            })
+            .catch((e) => {
+              console.error(e);
+            });
+        })
+        .catch((e) => {
+          console.error(e);
+        });
+
+      var applyFilter = function (dim, value, activeDashboard) {
+        //	Get the active dashboard, only run if sisense is loaded
+        if (activeDashboard) {
+          //	Create the filter options
+          var filterOptions = {
+            save: true,
+            refresh: true,
+            unionIfSameDimensionAndSameType: false,
+          };
+          //  Create the jaql for the filter
+          var jaql = {
+            datatype: "text",
+            dim: dim,
+            filter: {
+              multiSelection: true,
+              members: value,
+              explicit: true,
+            },
+            title: dim,
+          };
+
+          //	Create the filter jaql
+          var applyJaql = {
+            jaql: jaql,
+          };
+
+          //	Set the new filter
+          activeDashboard.$$model.filters.update(applyJaql, filterOptions);
+        }
+      };
+    </script>
+
+    <script>
+      jQuery(document).ready(function ($) {
+        $("body").on("click", ".tab-link", function () {
+          console.log("rendering");
+        });
+
+        function tableToText(tableID) {
+          // var tableElement = $("body").find('widget[widgetid="' + tableID +'"]')[0];
+          var tableElement = $("body").find("#grid_wrapper")[0];
+          table = $(tableElement).find("#grid")[0];
+          console.log(table);
+          var tableRows = $(table).find("tbody tr");
+          console.log(tableRows);
+          var htmlContent =
+            "<h1 style='margin-bottom:15px; font-size:36px; text-align:center;'>" +
+            cleanText(tableRows[0].innerHTML) +
+            " " +
+            cleanText(tableRows[1].innerHTML) +
+            "</h1><h3 style='margin-bottom:15px; font-size:20px; text-align:center;'>" +
+            cleanText(tableRows[2].innerHTML) +
+            " " +
+            cleanText(tableRows[3].innerHTML) +
+            "</h3><ul style='list-style:bullet; padding-left:30px;'>";
+
+          tableRows.each(function (i, v) {
+            if (i > 3 && i < tableRows.length - 1) {
+              htmlContent += "<li>" + cleanText(v.innerHTML) + "</li>";
+            }
+          });
+          htmlContent += "</ul>";
+
+          htmlContent +=
+            "<p style='margin-top:15px; font-size: 16px; font-weight:500;'>" +
+            cleanText(tableRows[tableRows.length - 1].innerHTML) +
+            "</p>";
+
+          tableElement.innerHTML = htmlContent;
+
+          var tableElement = $("body").find("#grid_wrapper")[1];
+          table = $(tableElement).find("#grid")[0];
+          console.log(table);
+          var tableRows = $(table).find("tbody tr");
+          console.log(tableRows);
+          var htmlContent =
+            "<h1 style='margin-bottom:15px; font-size:36px; text-align:center;'>" +
+            cleanText(tableRows[0].innerHTML) +
+            " " +
+            cleanText(tableRows[1].innerHTML) +
+            "</h1><h3 style='margin-bottom:15px; font-size:20px; text-align:center;'>" +
+            cleanText(tableRows[2].innerHTML) +
+            " " +
+            cleanText(tableRows[3].innerHTML) +
+            "</h3><ul style='list-style:bullet; padding-left:30px;'>";
+
+          tableRows.each(function (i, v) {
+            if (i > 3 && i < tableRows.length - 1) {
+              htmlContent += "<li>" + cleanText(v.innerHTML) + "</li>";
+            }
+          });
+          htmlContent += "</ul>";
+
+          htmlContent +=
+            "<p style='margin-top:15px; font-size: 16px; font-weight:500;'>" +
+            cleanText(tableRows[tableRows.length - 1].innerHTML) +
+            "</p>";
+
+          tableElement.innerHTML = htmlContent;
+
+          $("tablewidget").show();
+        }
+
+        function cleanText(text) {
+          return text;
+        }
+      });
+    </script>
+  </body>
+</html>
